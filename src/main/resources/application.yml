@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auto_companion
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+
+app:
+  vin:
+    apiUrl: https://auto.dev/api/vin/ZPBUA1ZL9KLA00848?apikey=ZrQEPSkKZ3JhdGEuc2FsdmVAZ21haWwuY29t
+    apiKey: ZrQEPSkKZ3JhdGEuc2FsdmVAZ21haWwuY29t
+  auth:
+    cors:
+      allowedOrigins: http://localhost:3000,http://localhost:8080,http://localhost:4200
+      maxAgeSecs: 3600
