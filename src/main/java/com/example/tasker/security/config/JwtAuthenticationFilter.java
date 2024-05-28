@@ -1,7 +1,7 @@
-package com.auto.companion.security.config;
+package com.example.tasker.security.config;
 
-import com.auto.companion.domain.repository.TokenRepository;
-import com.auto.companion.security.config.service.JwtService;
+import com.example.tasker.domain.repository.TokenRepository;
+import com.example.tasker.security.config.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

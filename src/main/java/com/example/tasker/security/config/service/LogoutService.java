@@ -1,6 +1,6 @@
-package com.auto.companion.security.config.service;
+package com.example.tasker.security.config.service;
 
-import com.auto.companion.domain.repository.TokenRepository;
+import com.example.tasker.domain.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

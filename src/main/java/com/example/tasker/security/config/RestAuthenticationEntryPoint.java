@@ -1,6 +1,6 @@
-package com.auto.companion.security.config;
+package com.example.tasker.security.config;
 
-import com.auto.companion.domain.exception.RestException;
+import com.example.tasker.domain.exception.RestException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

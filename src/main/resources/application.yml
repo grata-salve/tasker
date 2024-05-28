@@ -1,6 +1,9 @@
 spring:
+  application:
+    name: tasker
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/auto_companion
+    url: jdbc:postgresql://localhost:5432/tasker
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -23,9 +26,6 @@ application:
         expiration: 604800000 # 7 days
 
 app:
-  vin:
-    apiUrl: https://auto.dev/api/vin/ZPBUA1ZL9KLA00848?apikey=ZrQEPSkKZ3JhdGEuc2FsdmVAZ21haWwuY29t
-    apiKey: ZrQEPSkKZ3JhdGEuc2FsdmVAZ21haWwuY29t
   auth:
     cors:
       allowedOrigins: http://localhost:3000,http://localhost:8080,http://localhost:4200

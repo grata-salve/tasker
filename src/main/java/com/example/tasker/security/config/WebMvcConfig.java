@@ -1,4 +1,4 @@
-package com.auto.companion.security.config;
+package com.example.tasker.security.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -1,15 +1,15 @@
-package com.auto.companion.security.auth.service;
+package com.example.tasker.security.auth.service;
 
-import com.auto.companion.security.auth.model.AuthenticationRequest;
-import com.auto.companion.security.auth.model.AuthenticationResponse;
-import com.auto.companion.security.auth.model.RegisterRequest;
-import com.auto.companion.security.config.service.JwtService;
-import com.auto.companion.domain.exception.GlobalException;
-import com.auto.companion.domain.model.Token;
-import com.auto.companion.domain.repository.TokenRepository;
-import com.auto.companion.domain.constants.TokenType;
-import com.auto.companion.domain.model.User;
-import com.auto.companion.domain.repository.UserRepository;
+import com.example.tasker.security.auth.model.AuthenticationRequest;
+import com.example.tasker.security.auth.model.AuthenticationResponse;
+import com.example.tasker.security.auth.model.RegisterRequest;
+import com.example.tasker.security.config.service.JwtService;
+import com.example.tasker.domain.exception.GlobalException;
+import com.example.tasker.domain.model.Token;
+import com.example.tasker.domain.repository.TokenRepository;
+import com.example.tasker.domain.constants.TokenType;
+import com.example.tasker.domain.model.User;
+import com.example.tasker.domain.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,7 +50,7 @@ public class AuthenticationService {
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+        .refreshToken(refreshToken)
         .build();
   }
 
@@ -69,7 +69,7 @@ public class AuthenticationService {
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+        .refreshToken(refreshToken)
         .build();
   }
 
@@ -96,8 +96,8 @@ public class AuthenticationService {
   }
 
   public void refreshToken(
-          HttpServletRequest request,
-          HttpServletResponse response
+      HttpServletRequest request,
+      HttpServletResponse response
   ) throws IOException {
     final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
     final String refreshToken;
@@ -109,15 +109,15 @@ public class AuthenticationService {
     userEmail = jwtService.extractUsername(refreshToken);
     if (userEmail != null) {
       var user = this.userRepository.findByEmail(userEmail)
-              .orElseThrow();
+          .orElseThrow();
       if (jwtService.isTokenValid(refreshToken, user)) {
         var accessToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
         var authResponse = AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .build();
         new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
       }
     }

@@ -1,4 +1,4 @@
-package com.auto.companion.security.auth.model;
+package com.example.tasker.security.auth.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

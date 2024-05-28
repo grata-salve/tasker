@@ -1,4 +1,4 @@
-package com.auto.companion.domain.constants;
+package com.example.tasker.domain.constants;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

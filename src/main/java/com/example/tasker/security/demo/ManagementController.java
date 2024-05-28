@@ -1,4 +1,4 @@
-package com.auto.companion.security.demo;
+package com.example.tasker.security.demo;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

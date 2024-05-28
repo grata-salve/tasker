@@ -1,9 +1,8 @@
-package com.auto.companion.domain.repository;
+package com.example.tasker.domain.repository;
 
+import com.example.tasker.domain.model.Token;
 import java.util.List;
 import java.util.Optional;
-
-import com.auto.companion.domain.model.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

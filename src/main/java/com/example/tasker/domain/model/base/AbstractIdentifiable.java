@@ -1,4 +1,4 @@
-package com.auto.companion.domain.model.base;
+package com.example.tasker.domain.model.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;

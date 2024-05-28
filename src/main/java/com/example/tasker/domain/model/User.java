@@ -1,17 +1,13 @@
-package com.auto.companion.domain.model;
+package com.example.tasker.domain.model;
 
-import com.auto.companion.domain.constants.Role;
-import com.auto.companion.domain.model.base.AbstractIdentifiable;
-import com.auto.companion.domain.model.base.AbstractVersionalIdentifiable;
+import com.example.tasker.domain.constants.Role;
+import com.example.tasker.domain.model.base.AbstractIdentifiable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -39,15 +35,20 @@ public class User extends AbstractIdentifiable implements UserDetails {
   @Column(name = "imagedata", length = 1000)
   private byte[] imageData;
 
-  @OneToMany
-  @JoinColumn(name = "car_infos_id")
-  private List<CarInfo> carInfos = new ArrayList<>();
-
   @Enumerated(EnumType.STRING)
   private Role role;
 
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
+
+  @OneToMany(mappedBy = "member")
+  private List<ProjectMember> projectMembers;
+
+  @OneToMany(mappedBy = "member")
+  private List<TaskAttachment> taskAttachments;
+
+  @OneToMany(mappedBy = "member")
+  private List<TaskHistory> taskHistories;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

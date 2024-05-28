@@ -1,13 +1,12 @@
-package com.auto.companion.user.service;
+package com.example.tasker.user.service;
 
-import com.auto.companion.domain.model.User;
-import com.auto.companion.domain.repository.UserRepository;
+import com.example.tasker.domain.model.User;
+import com.example.tasker.domain.repository.UserRepository;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor

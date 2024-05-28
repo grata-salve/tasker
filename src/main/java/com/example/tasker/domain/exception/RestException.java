@@ -1,4 +1,4 @@
-package com.auto.companion.domain.exception;
+package com.example.tasker.domain.exception;
 
 import lombok.Builder;
 

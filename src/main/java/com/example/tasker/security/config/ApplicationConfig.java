@@ -1,6 +1,6 @@
-package com.auto.companion.security.config;
+package com.example.tasker.security.config;
 
-import com.auto.companion.domain.repository.UserRepository;
+import com.example.tasker.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

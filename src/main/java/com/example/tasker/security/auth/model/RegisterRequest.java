@@ -1,6 +1,6 @@
-package com.auto.companion.security.auth.model;
+package com.example.tasker.security.auth.model;
 
-import com.auto.companion.domain.constants.Role;
+import com.example.tasker.domain.constants.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

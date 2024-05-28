@@ -1,15 +1,15 @@
-package com.auto.companion.security.config;
+package com.example.tasker.security.config;
 
-import static com.auto.companion.domain.constants.Permission.ADMIN_CREATE;
-import static com.auto.companion.domain.constants.Permission.ADMIN_DELETE;
-import static com.auto.companion.domain.constants.Permission.ADMIN_READ;
-import static com.auto.companion.domain.constants.Permission.ADMIN_UPDATE;
-import static com.auto.companion.domain.constants.Permission.MANAGER_CREATE;
-import static com.auto.companion.domain.constants.Permission.MANAGER_DELETE;
-import static com.auto.companion.domain.constants.Permission.MANAGER_READ;
-import static com.auto.companion.domain.constants.Permission.MANAGER_UPDATE;
-import static com.auto.companion.domain.constants.Role.ADMIN;
-import static com.auto.companion.domain.constants.Role.MANAGER;
+import static com.example.tasker.domain.constants.Permission.ADMIN_CREATE;
+import static com.example.tasker.domain.constants.Permission.ADMIN_DELETE;
+import static com.example.tasker.domain.constants.Permission.ADMIN_READ;
+import static com.example.tasker.domain.constants.Permission.ADMIN_UPDATE;
+import static com.example.tasker.domain.constants.Permission.MANAGER_CREATE;
+import static com.example.tasker.domain.constants.Permission.MANAGER_DELETE;
+import static com.example.tasker.domain.constants.Permission.MANAGER_READ;
+import static com.example.tasker.domain.constants.Permission.MANAGER_UPDATE;
+import static com.example.tasker.domain.constants.Role.ADMIN;
+import static com.example.tasker.domain.constants.Role.MANAGER;
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;

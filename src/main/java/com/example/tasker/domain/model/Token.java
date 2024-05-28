@@ -1,7 +1,7 @@
-package com.auto.companion.domain.model;
+package com.example.tasker.domain.model;
 
-import com.auto.companion.domain.model.base.AbstractIdentifiable;
-import com.auto.companion.domain.constants.TokenType;
+import com.example.tasker.domain.constants.TokenType;
+import com.example.tasker.domain.model.base.AbstractIdentifiable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
