@@ -3,8 +3,15 @@ package com.example.tasker.domain.model;
 
 import com.example.tasker.domain.constants.Priority;
 import com.example.tasker.domain.constants.Status;
-import com.example.tasker.domain.model.base.AbstractCreationTimeIdentifiable;
+import com.example.tasker.domain.model.base.AbstractCreationTime;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -19,7 +26,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "tasks")
-public class Task extends AbstractCreationTimeIdentifiable {
+public class Task extends AbstractCreationTime {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false)
+  protected Long id;
 
   @ManyToOne
   @JoinColumn(name = "project_id", nullable = false)
@@ -30,15 +42,16 @@ public class Task extends AbstractCreationTimeIdentifiable {
 
   private String description;
 
+  @Enumerated(EnumType.STRING)
   private Status status;
 
   private LocalDateTime deadline;
 
+  @Enumerated(EnumType.STRING)
   private Priority priority;
 
-  @ManyToOne
-  @JoinColumn(name = "assigned_to_id")
-  private User assigned_to;
+  @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
+  private List<TaskAssigned> taskAssignedMembers;
 
   @OneToMany(mappedBy = "task")
   private List<TaskAttachment> taskAttachment;

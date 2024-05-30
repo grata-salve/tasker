@@ -1,9 +1,12 @@
 package com.example.tasker.project.service;
 
 import com.example.tasker.domain.model.Project;
+import com.example.tasker.domain.model.Task;
 import com.example.tasker.domain.model.mapper.ProjectMapper;
 import com.example.tasker.domain.repository.ProjectRepository;
 import com.example.tasker.project.model.ProjectDto;
+import com.example.tasker.task.model.TaskDto;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,12 +21,12 @@ public class ProjectService {
 
   @Transactional
   public ProjectDto createProject(Long userId, ProjectDto projectDto) {
-    projectDto.setUserId(userId);
+    projectDto.setProjectCreatorId(userId);
     Project project = projectRepository.save(projectMapper.toEntity(projectDto));
     return projectMapper.toDto(project);
   }
 
-  @Transactional(readOnly = true)
+  @Transactional
   public ProjectDto getProjectById(Long id) {
     Project project = projectRepository.findById(id).orElseThrow(NoSuchElementException::new);
     return projectMapper.toDto(project);
@@ -31,22 +34,19 @@ public class ProjectService {
 
   @Transactional
   public ProjectDto updateProject(ProjectDto projectDto) {
-
-    // Получение существующего проекта из базы данных
     Project existingProject = projectRepository.findById(projectDto.getId())
         .orElseThrow(NoSuchElementException::new);
 
-    // Обновление существующего проекта данными из DTO
+    LocalDateTime createdAt = existingProject.getCreatedAt();
+
     projectMapper.updateProject(projectDto, existingProject);
-
-    // Сохранение обновленного проекта
     Project updatedProject = projectRepository.save(existingProject);
+    ProjectDto updatedProjectDto = projectMapper.toDto(updatedProject);
+    updatedProjectDto.setCreatedAt(existingProject.getCreatedAt());
 
-    // Возвращение обновленного DTO
-    return projectMapper.toDto(updatedProject);
+    updatedProjectDto.setCreatedAt(createdAt);
 
-//    Project project = projectMapper.toEntity(projectDto);
-//    return projectMapper.toDto(projectRepository.save(project));
+    return updatedProjectDto;
   }
 
   @Transactional

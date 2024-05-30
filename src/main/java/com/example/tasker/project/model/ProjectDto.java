@@ -16,5 +16,5 @@ public class ProjectDto {
   @NotBlank
   private String projectName;
   private String description;
-  private Long userId;
+  private Long projectCreatorId;
 }

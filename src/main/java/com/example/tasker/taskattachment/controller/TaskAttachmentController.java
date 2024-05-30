@@ -23,8 +23,8 @@ public class TaskAttachmentController {
 
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public TaskAttachmentDto createTaskAttachment(@RequestBody TaskAttachmentDto taskDto) {
-    return taskAttachmentService.createTaskAttachment(taskDto);
+  public TaskAttachmentDto createTaskAttachment(@RequestBody TaskAttachmentDto taskAttachmentDto) {
+    return taskAttachmentService.createTaskAttachment(taskAttachmentDto);
   }
 
   @GetMapping("/get/{taskAttachmentId}")
@@ -35,8 +35,8 @@ public class TaskAttachmentController {
 
   @PutMapping("/update")
   @ResponseStatus(HttpStatus.OK)
-  public TaskAttachmentDto updateTaskAttachment(@RequestBody TaskAttachmentDto taskDto) {
-    return taskAttachmentService.updateTaskAttachment(taskDto);
+  public TaskAttachmentDto updateTaskAttachment(@RequestBody TaskAttachmentDto taskAttachmentDto) {
+    return taskAttachmentService.updateTaskAttachment(taskAttachmentDto);
   }
 
   @DeleteMapping("/delete/{taskAttachmentId}")

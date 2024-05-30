@@ -1,9 +1,11 @@
 package com.example.tasker.task.service;
 
+import com.example.tasker.domain.constants.Status;
 import com.example.tasker.domain.model.Task;
 import com.example.tasker.domain.model.mapper.TaskMapper;
 import com.example.tasker.domain.repository.TaskRepository;
 import com.example.tasker.task.model.TaskDto;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class TaskService {
 
   @Transactional
   public TaskDto createTask(TaskDto taskDto) {
+    taskDto.setStatus(Status.CREATED);
     Task task = taskRepository.save(taskMapper.toEntity(taskDto));
     return taskMapper.toDto(task);
   }
@@ -31,7 +34,11 @@ public class TaskService {
   @Transactional
   public TaskDto updateTask(TaskDto taskDto) {
     Task task = taskMapper.toEntity(taskDto);
-    return taskMapper.toDto(taskRepository.save(task));
+    LocalDateTime createdAt = taskRepository.findById(taskDto.getId()).
+        orElseThrow(NoSuchElementException::new).getCreatedAt();
+    TaskDto taskDtoWithCreationTime = taskMapper.toDto(taskRepository.save(task));
+    taskDtoWithCreationTime.setCreatedAt(createdAt);
+    return taskDtoWithCreationTime;
   }
 
   @Transactional

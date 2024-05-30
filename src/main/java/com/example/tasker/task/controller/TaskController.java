@@ -1,4 +1,4 @@
-package com.example.tasker.domain.model.controller;
+package com.example.tasker.task.controller;
 
 import com.example.tasker.task.model.TaskDto;
 import com.example.tasker.task.service.TaskService;

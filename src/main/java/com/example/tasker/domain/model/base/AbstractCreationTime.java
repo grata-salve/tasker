@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AbstractCreationTimeIdentifiable extends AbstractIdentifiable {
+public class AbstractCreationTime {
 
   @CreatedDate
   @Column(name = "created_at", updatable = false)

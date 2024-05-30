@@ -1,5 +1,10 @@
 package com.example.tasker.domain.constants;
 
 public enum Status {
-  CREATED, UPDATED, ACTIVE, COMPLETED
+  CREATED,
+  ASSIGNED,
+  SUSPENDED,
+  ACTIVE,
+  COMPLETED
 }
+//TODO: suspended -> assigned / active if press button
