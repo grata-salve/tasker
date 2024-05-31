@@ -2,6 +2,7 @@ package com.example.tasker.taskattachment.controller;
 
 import com.example.tasker.taskattachment.model.TaskAttachmentDto;
 import com.example.tasker.taskattachment.service.TaskAttachmentService;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/task-attachment")
@@ -23,8 +26,12 @@ public class TaskAttachmentController {
 
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public TaskAttachmentDto createTaskAttachment(@RequestBody TaskAttachmentDto taskAttachmentDto) {
-    return taskAttachmentService.createTaskAttachment(taskAttachmentDto);
+  public TaskAttachmentDto createTaskAttachment(
+      @RequestParam("fileData") MultipartFile fileData,
+      @RequestParam("taskId") Long taskId,
+      @RequestParam("memberId") Long memberId)
+      throws IOException {
+    return taskAttachmentService.createTaskAttachment(fileData, taskId, memberId);
   }
 
   @GetMapping("/get/{taskAttachmentId}")
@@ -35,8 +42,13 @@ public class TaskAttachmentController {
 
   @PutMapping("/update")
   @ResponseStatus(HttpStatus.OK)
-  public TaskAttachmentDto updateTaskAttachment(@RequestBody TaskAttachmentDto taskAttachmentDto) {
-    return taskAttachmentService.updateTaskAttachment(taskAttachmentDto);
+  public TaskAttachmentDto updateTaskAttachment(
+      @RequestParam("id") Long id,
+      @RequestParam("fileData") MultipartFile fileData,
+      @RequestParam("taskId") Long taskId,
+      @RequestParam("memberId") Long memberId)
+      throws IOException {
+    return taskAttachmentService.updateTaskAttachment(id, fileData, taskId, memberId);
   }
 
   @DeleteMapping("/delete/{taskAttachmentId}")

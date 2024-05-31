@@ -2,7 +2,6 @@ package com.example.tasker.taskcomment.model;
 
 import com.example.tasker.domain.model.TaskComment;
 import jakarta.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Data;
 

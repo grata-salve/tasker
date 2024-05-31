@@ -5,10 +5,12 @@ import com.example.tasker.domain.model.TaskAttachment;
 import com.example.tasker.domain.model.mapper.TaskAttachmentMapper;
 import com.example.tasker.domain.repository.TaskAttachmentRepository;
 import com.example.tasker.taskattachment.model.TaskAttachmentDto;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +20,19 @@ public class TaskAttachmentService {
   private final TaskAttachmentMapper taskAttachmentMapper;
 
   @Transactional
-  public TaskAttachmentDto createTaskAttachment(TaskAttachmentDto taskAttachmentDto) {
-    TaskAttachment taskAttachment = taskAttachmentRepository.save(taskAttachmentMapper.toEntity(taskAttachmentDto));
-    return taskAttachmentMapper.toDto(taskAttachment);
+  public TaskAttachmentDto createTaskAttachment(
+      MultipartFile fileData, Long taskId, Long memberId) throws IOException {
+    var taskAttachmentDto = new TaskAttachmentDto();
+    taskAttachmentDto.setFileData(fileData.getBytes());
+    taskAttachmentDto.setTaskId(taskId);
+    taskAttachmentDto.setMemberId(memberId);
+
+    TaskAttachment taskAttachment =
+        taskAttachmentRepository.save(taskAttachmentMapper.toEntity(taskAttachmentDto));
+
+    var taskAttachmentWithoutFileDto = taskAttachmentMapper.toDto(taskAttachment);
+    taskAttachmentWithoutFileDto.setFileData(null);
+    return taskAttachmentWithoutFileDto;
   }
 
   @Transactional(readOnly = true)
@@ -30,9 +42,20 @@ public class TaskAttachmentService {
   }
 
   @Transactional
-  public TaskAttachmentDto updateTaskAttachment(TaskAttachmentDto taskAttachmentDto) {
+  public TaskAttachmentDto updateTaskAttachment(
+      Long id, MultipartFile fileData, Long taskId, Long memberId) throws IOException {
+    var taskAttachmentDto = new TaskAttachmentDto();
+    taskAttachmentDto.setId(id);
+    taskAttachmentDto.setFileData(fileData.getBytes());
+    taskAttachmentDto.setTaskId(taskId);
+    taskAttachmentDto.setMemberId(memberId);
+
     TaskAttachment taskAttachment = taskAttachmentMapper.toEntity(taskAttachmentDto);
-    return taskAttachmentMapper.toDto(taskAttachmentRepository.save(taskAttachment));
+    var taskAttachmentWithoutFile = taskAttachmentRepository.save(taskAttachment);
+    var taskAttachmentWithoutFileDto = taskAttachmentMapper.toDto(taskAttachmentWithoutFile);
+    taskAttachmentWithoutFileDto.setCreatedAt(taskAttachmentWithoutFile.getCreatedAt());
+    taskAttachmentWithoutFileDto.setFileData(null);
+    return taskAttachmentWithoutFileDto;
   }
 
   @Transactional
@@ -42,3 +65,5 @@ public class TaskAttachmentService {
     return taskAttachmentMapper.toDto(taskAttachment);
   }
 }
+//TODO: createdAt not visible only in update? Maybe return AbstractCreation....?
+//TODO: return filename not a null / complete file

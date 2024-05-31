@@ -1,7 +1,5 @@
 package com.example.tasker.taskcomment.controller;
 
-import com.example.tasker.task.model.TaskDto;
-import com.example.tasker.task.service.TaskService;
 import com.example.tasker.taskcomment.model.TaskCommentDto;
 import com.example.tasker.taskcomment.service.TaskCommentService;
 import lombok.RequiredArgsConstructor;

@@ -2,8 +2,10 @@ package com.example.tasker.taskattachment.model;
 
 import com.example.tasker.domain.model.TaskAttachment;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -16,6 +18,7 @@ public class TaskAttachmentDto {
   private LocalDateTime createdAt;
   private Long taskId;
   private Long memberId;
-  @NotBlank
+  @NotNull
   private byte[] fileData;
 }
+//TODO: NotBlank -> NotNull!!!
