@@ -7,8 +7,12 @@ import com.example.tasker.domain.repository.TaskAssignedRepository;
 import com.example.tasker.domain.repository.TaskRepository;
 import com.example.tasker.domain.repository.UserRepository;
 import com.example.tasker.taskassigned.model.TaskAssignedDto;
+import com.example.tasker.user.model.UserDto;
+import com.example.tasker.user.service.UserService;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,7 @@ public class TaskAssignedService {
   private final TaskAssignedMapper taskAssignedMapper;
   private final TaskRepository taskRepository;
   private final UserRepository userRepository;
+  private final UserService userService;
 
   @Transactional
   public TaskAssignedDto createTaskAssigned(TaskAssignedDto taskAssignedDto) {
@@ -44,17 +49,19 @@ public class TaskAssignedService {
     return taskAssignedMapper.toDto(taskAssigned);
   }
 
-//  @Transactional
-//  public TaskAssignedDto updateTaskAssigned(TaskAssignedDto taskAssignedDto) {
-//    TaskAssigned taskAssigned = taskAssignedMapper.toEntity(taskAssignedDto);
-//    return taskAssignedMapper.toDto(taskAssignedRepository.save(taskAssigned));
-//  }
-
   @Transactional
   public TaskAssignedDto deleteTaskAssigned(Long taskAssignedId) {
     TaskAssigned taskAssigned = taskAssignedRepository.findById(taskAssignedId).orElseThrow(NoSuchElementException::new);
     taskAssignedRepository.deleteById(taskAssignedId);
     return taskAssignedMapper.toDto(taskAssigned);
+  }
+
+  @Transactional(readOnly = true)
+  public List<UserDto> getMembersByTaskId(Long taskId) {
+    List<Long> memberIds = taskAssignedRepository.findMemberIdsByTaskId(taskId);
+    return memberIds.stream()
+        .map(userService::getUserById)
+        .collect(Collectors.toList());
   }
 }
 

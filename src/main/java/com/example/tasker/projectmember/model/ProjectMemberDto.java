@@ -2,7 +2,6 @@ package com.example.tasker.projectmember.model;
 
 import com.example.tasker.domain.constants.ProjectRole;
 import com.example.tasker.domain.model.ProjectMember;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -17,6 +16,6 @@ public class ProjectMemberDto {
   private Long projectId;
   @NotNull
   private Long memberId;
-  @NotBlank
+  @NotNull
   private ProjectRole role;
 }

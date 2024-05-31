@@ -2,6 +2,8 @@ package com.example.tasker.projectmember.controller;
 
 import com.example.tasker.projectmember.model.ProjectMemberDto;
 import com.example.tasker.projectmember.service.ProjectMemberService;
+import com.example.tasker.user.model.UserDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,5 +45,11 @@ public class ProjectMemberController {
   @ResponseStatus(HttpStatus.OK)
   public ProjectMemberDto deleteProject(@PathVariable Long id) {
     return projectMemberService.deleteProjectMember(id);
+  }
+
+  @GetMapping("/get/membersByProjectId/{projectId}")
+  @ResponseStatus(HttpStatus.OK)
+  public List<UserDto> getMembersByProjectId(@PathVariable Long projectId) {
+    return projectMemberService.getMembersByProjectId(projectId);
   }
 }

@@ -1,10 +1,13 @@
 package com.example.tasker.project.service;
 
+import com.example.tasker.domain.constants.ProjectRole;
 import com.example.tasker.domain.model.Project;
 import com.example.tasker.domain.model.Task;
 import com.example.tasker.domain.model.mapper.ProjectMapper;
 import com.example.tasker.domain.repository.ProjectRepository;
 import com.example.tasker.project.model.ProjectDto;
+import com.example.tasker.projectmember.model.ProjectMemberDto;
+import com.example.tasker.projectmember.service.ProjectMemberService;
 import com.example.tasker.task.model.TaskDto;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -18,11 +21,19 @@ public class ProjectService {
 
   private final ProjectRepository projectRepository;
   private final ProjectMapper projectMapper;
+  private final ProjectMemberService projectMemberService;
 
   @Transactional
   public ProjectDto createProject(Long userId, ProjectDto projectDto) {
     projectDto.setProjectCreatorId(userId);
     Project project = projectRepository.save(projectMapper.toEntity(projectDto));
+
+    ProjectMemberDto projectMemberDto = new ProjectMemberDto();
+    projectMemberDto.setProjectId(project.getId());
+    projectMemberDto.setMemberId(userId);
+    projectMemberDto.setRole(ProjectRole.ADMIN);
+    projectMemberService.createProjectMember(projectMemberDto);
+
     return projectMapper.toDto(project);
   }
 
