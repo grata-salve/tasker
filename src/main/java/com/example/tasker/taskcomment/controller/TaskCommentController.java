@@ -4,6 +4,7 @@ import com.example.tasker.taskcomment.model.TaskCommentDto;
 import com.example.tasker.taskcomment.service.TaskCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +24,10 @@ public class TaskCommentController {
 
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public TaskCommentDto createTaskComment(@RequestBody TaskCommentDto taskCommentDto) {
-    return taskCommentService.createTaskComment(taskCommentDto);
+  public TaskCommentDto createTaskComment(
+      @RequestBody TaskCommentDto taskCommentDto,
+      Authentication authentication) {
+    return taskCommentService.createTaskComment(taskCommentDto, authentication);
   }
 
   @GetMapping("/get/{taskCommentId}")
@@ -35,13 +38,17 @@ public class TaskCommentController {
 
   @PutMapping("/update")
   @ResponseStatus(HttpStatus.OK)
-  public TaskCommentDto updateTask(@RequestBody TaskCommentDto taskCommentDto) {
-    return taskCommentService.updateTaskComment(taskCommentDto);
+  public TaskCommentDto updateTask(
+      @RequestBody TaskCommentDto taskCommentDto,
+      Authentication authentication) {
+    return taskCommentService.updateTaskComment(taskCommentDto, authentication);
   }
 
   @DeleteMapping("/delete/{taskCommentId}")
   @ResponseStatus(HttpStatus.OK)
-  public TaskCommentDto deleteTaskComment(@PathVariable Long taskCommentId) {
-    return taskCommentService.deleteTaskComment(taskCommentId);
+  public TaskCommentDto deleteTaskComment(
+      @PathVariable Long taskCommentId,
+      Authentication authentication) {
+    return taskCommentService.deleteTaskComment(taskCommentId, authentication);
   }
 }

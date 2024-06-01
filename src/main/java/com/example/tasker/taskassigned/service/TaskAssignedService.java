@@ -1,5 +1,6 @@
 package com.example.tasker.taskassigned.service;
 
+import com.example.tasker.domain.constants.Action;
 import com.example.tasker.domain.exception.GlobalException;
 import com.example.tasker.domain.model.TaskAssigned;
 import com.example.tasker.domain.model.mapper.TaskAssignedMapper;
@@ -7,6 +8,7 @@ import com.example.tasker.domain.repository.TaskAssignedRepository;
 import com.example.tasker.domain.repository.TaskRepository;
 import com.example.tasker.domain.repository.UserRepository;
 import com.example.tasker.taskassigned.model.TaskAssignedDto;
+import com.example.tasker.taskhistory.service.TaskHistoryService;
 import com.example.tasker.user.model.UserDto;
 import com.example.tasker.user.service.UserService;
 import java.util.List;
@@ -27,6 +29,7 @@ public class TaskAssignedService {
   private final TaskRepository taskRepository;
   private final UserRepository userRepository;
   private final UserService userService;
+  private final TaskHistoryService taskHistoryService;
 
   @Transactional
   public TaskAssignedDto createTaskAssigned(TaskAssignedDto taskAssignedDto) {
@@ -39,6 +42,8 @@ public class TaskAssignedService {
     }
 
     TaskAssigned taskAssigned = taskAssignedRepository.save(taskAssignedMapper.toEntity(taskAssignedDto));
+    taskHistoryService.createTaskHistoryAuto(
+        taskAssigned.getTask().getId(), taskAssigned.getMember().getId(), Action.ASSIGNED);
     return taskAssignedMapper.toDto(taskAssigned);
   }
 
@@ -53,6 +58,8 @@ public class TaskAssignedService {
   public TaskAssignedDto deleteTaskAssigned(Long taskAssignedId) {
     TaskAssigned taskAssigned = taskAssignedRepository.findById(taskAssignedId).orElseThrow(NoSuchElementException::new);
     taskAssignedRepository.deleteById(taskAssignedId);
+    taskHistoryService.createTaskHistoryAuto(
+        taskAssigned.getTask().getId(), taskAssigned.getMember().getId(), Action.UNASSIGNED);
     return taskAssignedMapper.toDto(taskAssigned);
   }
 

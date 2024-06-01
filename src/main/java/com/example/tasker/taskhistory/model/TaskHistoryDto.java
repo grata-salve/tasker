@@ -3,8 +3,10 @@ package com.example.tasker.taskhistory.model;
 import com.example.tasker.domain.constants.Action;
 import com.example.tasker.domain.model.TaskHistory;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -17,7 +19,7 @@ public class TaskHistoryDto {
   private LocalDateTime createdAt;
   private Long taskId;
   private Long memberId;
-  @NotBlank
+  @NotNull
   private Action action;
   private String description;
 }

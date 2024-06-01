@@ -1,10 +1,13 @@
 package com.example.tasker.taskattachment.service;
 
 
+import com.example.tasker.domain.constants.Action;
 import com.example.tasker.domain.model.TaskAttachment;
 import com.example.tasker.domain.model.mapper.TaskAttachmentMapper;
 import com.example.tasker.domain.repository.TaskAttachmentRepository;
 import com.example.tasker.taskattachment.model.TaskAttachmentDto;
+import com.example.tasker.taskattachment.model.TaskAttachmentFileNameDto;
+import com.example.tasker.taskhistory.service.TaskHistoryService;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +21,10 @@ public class TaskAttachmentService {
 
   private final TaskAttachmentRepository taskAttachmentRepository;
   private final TaskAttachmentMapper taskAttachmentMapper;
+  private final TaskHistoryService taskHistoryService;
 
   @Transactional
-  public TaskAttachmentDto createTaskAttachment(
+  public TaskAttachmentFileNameDto createTaskAttachment(
       MultipartFile fileData, Long taskId, Long memberId) throws IOException {
     var taskAttachmentDto = new TaskAttachmentDto();
     taskAttachmentDto.setFileData(fileData.getBytes());
@@ -30,9 +34,12 @@ public class TaskAttachmentService {
     TaskAttachment taskAttachment =
         taskAttachmentRepository.save(taskAttachmentMapper.toEntity(taskAttachmentDto));
 
-    var taskAttachmentWithoutFileDto = taskAttachmentMapper.toDto(taskAttachment);
-    taskAttachmentWithoutFileDto.setFileData(null);
-    return taskAttachmentWithoutFileDto;
+    taskHistoryService.createTaskHistoryAuto(taskId, memberId, Action.ATTACHED);
+
+    return new TaskAttachmentFileNameDto(
+        taskAttachment.getId(), taskAttachment.getCreatedAt(), taskAttachment.getTask().getId(),
+        taskAttachment.getMember().getId(), fileData.getOriginalFilename()
+    );
   }
 
   @Transactional(readOnly = true)
@@ -42,7 +49,7 @@ public class TaskAttachmentService {
   }
 
   @Transactional
-  public TaskAttachmentDto updateTaskAttachment(
+  public TaskAttachmentFileNameDto updateTaskAttachment(
       Long id, MultipartFile fileData, Long taskId, Long memberId) throws IOException {
     var taskAttachmentDto = new TaskAttachmentDto();
     taskAttachmentDto.setId(id);
@@ -51,19 +58,24 @@ public class TaskAttachmentService {
     taskAttachmentDto.setMemberId(memberId);
 
     TaskAttachment taskAttachment = taskAttachmentMapper.toEntity(taskAttachmentDto);
-    var taskAttachmentWithoutFile = taskAttachmentRepository.save(taskAttachment);
-    var taskAttachmentWithoutFileDto = taskAttachmentMapper.toDto(taskAttachmentWithoutFile);
-    taskAttachmentWithoutFileDto.setCreatedAt(taskAttachmentWithoutFile.getCreatedAt());
-    taskAttachmentWithoutFileDto.setFileData(null);
-    return taskAttachmentWithoutFileDto;
+    var taskAttachmentSaved = taskAttachmentRepository.save(taskAttachment);
+
+    taskHistoryService.createTaskHistoryAuto(taskId, memberId, Action.UPDATED);
+
+    return new TaskAttachmentFileNameDto(
+        taskAttachmentSaved.getId(), taskAttachmentSaved.getCreatedAt(),
+        taskAttachmentSaved.getTask().getId(),
+        taskAttachmentSaved.getMember().getId(), fileData.getOriginalFilename()
+    );
   }
 
   @Transactional
   public TaskAttachmentDto deleteTaskAttachment(Long taskAttachmentId) {
     TaskAttachment taskAttachment = taskAttachmentRepository.findById(taskAttachmentId).orElseThrow(NoSuchElementException::new);
     taskAttachmentRepository.deleteById(taskAttachmentId);
+    taskHistoryService.createTaskHistoryAuto(
+        taskAttachment.getTask().getId(), taskAttachment.getMember().getId(), Action.DETACHED);
     return taskAttachmentMapper.toDto(taskAttachment);
   }
 }
 //TODO: createdAt not visible only in update? Maybe return AbstractCreation....?
-//TODO: return filename not a null / complete file

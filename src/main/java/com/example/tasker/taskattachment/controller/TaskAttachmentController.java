@@ -1,6 +1,7 @@
 package com.example.tasker.taskattachment.controller;
 
 import com.example.tasker.taskattachment.model.TaskAttachmentDto;
+import com.example.tasker.taskattachment.model.TaskAttachmentFileNameDto;
 import com.example.tasker.taskattachment.service.TaskAttachmentService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class TaskAttachmentController {
 
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public TaskAttachmentDto createTaskAttachment(
+  public TaskAttachmentFileNameDto createTaskAttachment(
       @RequestParam("fileData") MultipartFile fileData,
       @RequestParam("taskId") Long taskId,
       @RequestParam("memberId") Long memberId)
@@ -42,7 +43,7 @@ public class TaskAttachmentController {
 
   @PutMapping("/update")
   @ResponseStatus(HttpStatus.OK)
-  public TaskAttachmentDto updateTaskAttachment(
+  public TaskAttachmentFileNameDto updateTaskAttachment(
       @RequestParam("id") Long id,
       @RequestParam("fileData") MultipartFile fileData,
       @RequestParam("taskId") Long taskId,
