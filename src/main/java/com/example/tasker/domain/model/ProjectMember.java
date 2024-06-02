@@ -3,6 +3,8 @@ package com.example.tasker.domain.model;
 import com.example.tasker.domain.constants.ProjectRole;
 import com.example.tasker.domain.model.base.AbstractIdentifiable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -25,5 +27,7 @@ public class ProjectMember extends AbstractIdentifiable {
   private User member;
 
   @NotNull
+  @Enumerated(EnumType.STRING)
   private ProjectRole role;
 }
+//TODO: ENUMERATED

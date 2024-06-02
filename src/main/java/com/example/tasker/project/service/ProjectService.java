@@ -31,7 +31,7 @@ public class ProjectService {
     ProjectMemberDto projectMemberDto = new ProjectMemberDto();
     projectMemberDto.setProjectId(project.getId());
     projectMemberDto.setMemberId(userId);
-    projectMemberDto.setRole(ProjectRole.ADMIN);
+    projectMemberDto.setRole(ProjectRole.MANAGER);
     projectMemberService.createProjectMember(projectMemberDto);
 
     return projectMapper.toDto(project);

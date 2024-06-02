@@ -6,6 +6,7 @@ import com.example.tasker.domain.model.User;
 import com.example.tasker.domain.model.mapper.UserMapper;
 import com.example.tasker.domain.repository.UserRepository;
 import com.example.tasker.task.model.TaskDto;
+import com.example.tasker.user.model.AppointRoleRequest;
 import com.example.tasker.user.model.UserDto;
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -51,5 +52,12 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
         userRepository.deleteById(userId);
         return userMapper.toDto(user);
+    }
+
+    @Transactional
+    public UserDto appointRole(AppointRoleRequest appointRoleRequest) {
+        userRepository.updateUserRoleById(
+            appointRoleRequest.getUserId(), appointRoleRequest.getRole());
+        return getUserById(appointRoleRequest.getUserId());
     }
 }

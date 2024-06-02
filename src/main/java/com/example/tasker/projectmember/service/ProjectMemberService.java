@@ -1,5 +1,6 @@
 package com.example.tasker.projectmember.service;
 
+import com.example.tasker.domain.constants.ProjectRole;
 import com.example.tasker.domain.exception.GlobalException;
 import com.example.tasker.domain.model.Project;
 import com.example.tasker.domain.model.ProjectMember;
@@ -69,6 +70,11 @@ public class ProjectMemberService {
     return memberIds.stream()
         .map(userService::getUserById)
         .collect(Collectors.toList());
+  }
+
+  public ProjectRole getRoleForUserInProject(Long userId, Long projectId) {
+    return projectMemberRepository.findByMemberIdAndProjectId(userId, projectId)
+        .map(ProjectMember::getRole).orElseThrow(NoSuchElementException::new);
   }
 }
 

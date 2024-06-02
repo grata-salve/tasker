@@ -5,6 +5,7 @@ import com.example.tasker.project.model.ProjectDto;
 import com.example.tasker.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProjectController {
   private final ProjectService projectService;
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
   public ProjectDto createProject(@RequestBody ProjectDto projectDto, Authentication authentication) {
@@ -35,12 +37,14 @@ public class ProjectController {
     return projectService.getProjectById(id);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/update")
   @ResponseStatus(HttpStatus.OK)
   public ProjectDto updateProject(@RequestBody ProjectDto projectDto) {
     return projectService.updateProject(projectDto);
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/delete/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ProjectDto deleteProject(@PathVariable Long id) {

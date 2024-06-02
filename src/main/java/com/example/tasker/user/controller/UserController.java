@@ -1,5 +1,6 @@
 package com.example.tasker.user.controller;
 
+import com.example.tasker.user.model.AppointRoleRequest;
 import com.example.tasker.user.model.UserDto;
 import com.example.tasker.user.service.UserService;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,5 +66,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserDto deleteUser(@PathVariable Long userId) {
         return userService.deleteUser(userId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/appointRole")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto appointRole(@RequestBody AppointRoleRequest appointRoleRequest) {
+        return userService.appointRole(appointRoleRequest);
     }
 }
