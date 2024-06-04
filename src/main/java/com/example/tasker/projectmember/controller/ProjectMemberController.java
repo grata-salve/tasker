@@ -24,10 +24,11 @@ public class ProjectMemberController {
 
   private final ProjectMemberService projectMemberService;
 
-  @PreAuthorize("@projectSecurity.hasProjectRole(authentication, #projectMemberDto.projectId, 'PROJECT_ADMIN')")
+  @PreAuthorize("@projectSecurity.hasProjectRole(authentication, #projectMemberDto.projectId, 'PROJECT_MANAGER')")
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
   public ProjectMemberDto createProjectMember(@RequestBody ProjectMemberDto projectMemberDto) {
+    System.out.println("here");
     return projectMemberService.createProjectMember(projectMemberDto);
   }
 
@@ -44,7 +45,7 @@ public class ProjectMemberController {
     return projectMemberService.updateProjectMember(projectMemberDto);
   }
 
-  @PreAuthorize("@projectSecurity.hasProjectRole(authentication, #projectMemberDto.projectId, 'PROJECT_ADMIN')")
+  @PreAuthorize("@projectSecurity.hasProjectRole(authentication, #id, 'PROJECT_MANAGER')")
   @DeleteMapping("/delete/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ProjectMemberDto deleteProject(@PathVariable Long id) {
