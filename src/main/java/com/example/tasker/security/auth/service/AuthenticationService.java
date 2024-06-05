@@ -1,5 +1,6 @@
 package com.example.tasker.security.auth.service;
 
+import com.example.tasker.domain.constants.Role;
 import com.example.tasker.security.auth.model.AuthenticationRequest;
 import com.example.tasker.security.auth.model.AuthenticationResponse;
 import com.example.tasker.security.auth.model.RegisterRequest;
@@ -42,7 +43,7 @@ public class AuthenticationService {
         .lastName(request.getLastname())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
-        .role(request.getRole())
+        .role(Role.USER)
         .build();
     var savedUser = userRepository.save(user);
     var jwtToken = jwtService.generateToken(user);
