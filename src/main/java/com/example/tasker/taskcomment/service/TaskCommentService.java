@@ -5,6 +5,7 @@ import com.example.tasker.domain.model.TaskComment;
 import com.example.tasker.domain.model.User;
 import com.example.tasker.domain.model.mapper.TaskCommentMapper;
 import com.example.tasker.domain.repository.TaskCommentRepository;
+import com.example.tasker.security.utils.SecurityUtils;
 import com.example.tasker.taskcomment.model.TaskCommentDto;
 import com.example.tasker.taskhistory.service.TaskHistoryService;
 import java.util.NoSuchElementException;
@@ -22,10 +23,10 @@ public class TaskCommentService {
   private final TaskHistoryService taskHistoryService;
 
   @Transactional
-  public TaskCommentDto createTaskComment(TaskCommentDto taskCommentDto, Authentication authentication) {
+  public TaskCommentDto createTaskComment(TaskCommentDto taskCommentDto) {
     TaskComment taskComment = taskCommentRepository.save(taskCommentMapper.toEntity(taskCommentDto));
-    var user = (User) authentication.getPrincipal();
-    taskHistoryService.createTaskHistoryAuto(taskComment.getTask().getId(), user.getId(), Action.COMMENTED);
+    taskHistoryService.createTaskHistoryAuto(
+            taskComment.getTask().getId(), SecurityUtils.getCurrentUser().getId(), Action.COMMENTED);
     return taskCommentMapper.toDto(taskComment);
   }
 
@@ -36,19 +37,19 @@ public class TaskCommentService {
   }
 
   @Transactional
-  public TaskCommentDto updateTaskComment(TaskCommentDto taskCommentDto, Authentication authentication) {
+  public TaskCommentDto updateTaskComment(TaskCommentDto taskCommentDto) {
     TaskComment taskComment = taskCommentMapper.toEntity(taskCommentDto);
-    var user = (User) authentication.getPrincipal();
-    taskHistoryService.createTaskHistoryAuto(taskComment.getTask().getId(), user.getId(), Action.UPDATED);
+    taskHistoryService.createTaskHistoryAuto(
+            taskComment.getTask().getId(), SecurityUtils.getCurrentUser().getId(), Action.UPDATED);
     return taskCommentMapper.toDto(taskCommentRepository.save(taskComment));
   }
 
   @Transactional
-  public TaskCommentDto deleteTaskComment(Long taskCommentId, Authentication authentication) {
+  public TaskCommentDto deleteTaskComment(Long taskCommentId) {
     TaskComment taskComment = taskCommentRepository.findById(taskCommentId).orElseThrow(NoSuchElementException::new);
     taskCommentRepository.deleteById(taskCommentId);
-    var user = (User) authentication.getPrincipal();
-    taskHistoryService.createTaskHistoryAuto(taskComment.getTask().getId(), user.getId(), Action.UPDATED);
+    taskHistoryService.createTaskHistoryAuto(
+            taskComment.getTask().getId(), SecurityUtils.getCurrentUser().getId(), Action.UPDATED);
     return taskCommentMapper.toDto(taskComment);
   }
 }

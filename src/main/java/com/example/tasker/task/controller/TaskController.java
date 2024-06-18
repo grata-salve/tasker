@@ -2,6 +2,7 @@ package com.example.tasker.task.controller;
 
 import com.example.tasker.task.model.TaskDto;
 import com.example.tasker.task.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +24,7 @@ public class TaskController {
 
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public TaskDto createTask(@RequestBody TaskDto taskDto) {
+  public TaskDto createTask(@RequestBody @Valid TaskDto taskDto) {
     return taskService.createTask(taskDto);
   }
 
@@ -35,7 +36,7 @@ public class TaskController {
 
   @PutMapping("/update")
   @ResponseStatus(HttpStatus.OK)
-  public TaskDto updateTask(@RequestBody TaskDto taskDto) {
+  public TaskDto updateTask(@RequestBody @Valid TaskDto taskDto) {
     return taskService.updateTask(taskDto);
   }
 
@@ -45,4 +46,9 @@ public class TaskController {
     return taskService.deleteTask(taskId);
   }
 
+  @PutMapping("/complete/{taskId}")
+  @ResponseStatus(HttpStatus.OK)
+  public TaskDto completeTask(@PathVariable Long taskId) {
+    return taskService.completeTask(taskId);
+  }
 }
