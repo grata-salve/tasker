@@ -25,9 +25,8 @@ public class TaskCommentController {
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
   public TaskCommentDto createTaskComment(
-      @RequestBody TaskCommentDto taskCommentDto,
-      Authentication authentication) {
-    return taskCommentService.createTaskComment(taskCommentDto, authentication);
+      @RequestBody TaskCommentDto taskCommentDto) {
+    return taskCommentService.createTaskComment(taskCommentDto);
   }
 
   @GetMapping("/get/{taskCommentId}")
@@ -39,16 +38,14 @@ public class TaskCommentController {
   @PutMapping("/update")
   @ResponseStatus(HttpStatus.OK)
   public TaskCommentDto updateTask(
-      @RequestBody TaskCommentDto taskCommentDto,
-      Authentication authentication) {
-    return taskCommentService.updateTaskComment(taskCommentDto, authentication);
+      @RequestBody TaskCommentDto taskCommentDto) {
+    return taskCommentService.updateTaskComment(taskCommentDto);
   }
 
   @DeleteMapping("/delete/{taskCommentId}")
   @ResponseStatus(HttpStatus.OK)
   public TaskCommentDto deleteTaskComment(
-      @PathVariable Long taskCommentId,
-      Authentication authentication) {
-    return taskCommentService.deleteTaskComment(taskCommentId, authentication);
+      @PathVariable Long taskCommentId) {
+    return taskCommentService.deleteTaskComment(taskCommentId);
   }
 }

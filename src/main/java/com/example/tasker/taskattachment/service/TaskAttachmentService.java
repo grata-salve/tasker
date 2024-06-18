@@ -5,6 +5,7 @@ import com.example.tasker.domain.constants.Action;
 import com.example.tasker.domain.model.TaskAttachment;
 import com.example.tasker.domain.model.mapper.TaskAttachmentMapper;
 import com.example.tasker.domain.repository.TaskAttachmentRepository;
+import com.example.tasker.security.utils.SecurityUtils;
 import com.example.tasker.taskattachment.model.TaskAttachmentDto;
 import com.example.tasker.taskattachment.model.TaskAttachmentFileNameDto;
 import com.example.tasker.taskhistory.service.TaskHistoryService;
@@ -34,7 +35,7 @@ public class TaskAttachmentService {
     TaskAttachment taskAttachment =
         taskAttachmentRepository.save(taskAttachmentMapper.toEntity(taskAttachmentDto));
 
-    taskHistoryService.createTaskHistoryAuto(taskId, memberId, Action.ATTACHED);
+    taskHistoryService.createTaskHistoryAuto(taskId, SecurityUtils.getCurrentUser().getId(), Action.ATTACHED);
 
     return new TaskAttachmentFileNameDto(
         taskAttachment.getId(), taskAttachment.getCreatedAt(), taskAttachment.getTask().getId(),
@@ -60,7 +61,7 @@ public class TaskAttachmentService {
     TaskAttachment taskAttachment = taskAttachmentMapper.toEntity(taskAttachmentDto);
     var taskAttachmentSaved = taskAttachmentRepository.save(taskAttachment);
 
-    taskHistoryService.createTaskHistoryAuto(taskId, memberId, Action.UPDATED);
+    taskHistoryService.createTaskHistoryAuto(taskId, SecurityUtils.getCurrentUser().getId(), Action.UPDATED);
 
     return new TaskAttachmentFileNameDto(
         taskAttachmentSaved.getId(), taskAttachmentSaved.getCreatedAt(),
@@ -74,8 +75,7 @@ public class TaskAttachmentService {
     TaskAttachment taskAttachment = taskAttachmentRepository.findById(taskAttachmentId).orElseThrow(NoSuchElementException::new);
     taskAttachmentRepository.deleteById(taskAttachmentId);
     taskHistoryService.createTaskHistoryAuto(
-        taskAttachment.getTask().getId(), taskAttachment.getMember().getId(), Action.DETACHED);
+        taskAttachment.getTask().getId(), SecurityUtils.getCurrentUser().getId(), Action.DETACHED);
     return taskAttachmentMapper.toDto(taskAttachment);
   }
 }
-//TODO: createdAt not visible only in update? Maybe return AbstractCreation....?

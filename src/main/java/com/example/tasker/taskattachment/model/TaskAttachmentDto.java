@@ -21,4 +21,3 @@ public class TaskAttachmentDto {
   @NotNull
   private byte[] fileData;
 }
-//TODO: NotBlank -> NotNull!!!

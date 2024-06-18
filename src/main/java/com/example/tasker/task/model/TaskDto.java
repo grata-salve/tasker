@@ -24,5 +24,6 @@ public class TaskDto {
   private Status status;
   private LocalDateTime deadline;
   private Priority priority;
+  private int complexity;
   private List<Long> taskAssignedMemberIds;
 }

@@ -16,6 +16,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,6 +51,10 @@ public class Task extends AbstractCreationTime {
 
   @Enumerated(EnumType.STRING)
   private Priority priority;
+
+  @Min(value = 1, message = "< 1 is not allowed")
+  @Max(value = 10, message = "> 10 is not allowed")
+  private int complexity;
 
   @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
   private List<TaskAssigned> taskAssignedMembers;

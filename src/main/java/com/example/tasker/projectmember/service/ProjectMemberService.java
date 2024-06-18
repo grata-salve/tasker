@@ -38,7 +38,7 @@ public class ProjectMemberService {
         userRepository.findById(projectMemberDto.getMemberId()));
 
     if (projectMemberOptional.isPresent()) {
-      throw new GlobalException(HttpStatus.CONFLICT, "Цей користувач вже назначений на проект");
+      throw new GlobalException(HttpStatus.CONFLICT, "User already appointed");
     }
 
     ProjectMember projectMember = projectMemberRepository.save(projectMemberMapper.toEntity(projectMemberDto));
@@ -77,5 +77,3 @@ public class ProjectMemberService {
         .map(ProjectMember::getRole).orElseThrow(NoSuchElementException::new);
   }
 }
-
-//TODO: languages (UKR/ENG)

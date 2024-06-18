@@ -1,11 +1,13 @@
 package com.example.tasker.taskhistory.controller;
 
 import com.example.tasker.taskhistory.model.TaskHistoryDto;
+import com.example.tasker.taskhistory.model.TaskHistoryWithComplexityDto;
 import com.example.tasker.taskhistory.model.TimePeriodRequest;
 import com.example.tasker.taskhistory.service.TaskHistoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,5 +73,19 @@ public class TaskHistoryController {
   public List<TaskHistoryDto> getAllTaskHistoryDtosByTimePeriodAndMemberId(
       @RequestBody TimePeriodRequest timePeriodRequest) {
     return taskHistoryService.getAllTaskHistoryDtosByTimePeriodAndMemberId(timePeriodRequest);
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/getTaskHistoriesWithComplexityByMemberId/{memberId}")
+  @ResponseStatus(HttpStatus.OK)
+  public List<TaskHistoryWithComplexityDto> getTaskHistoriesWithComplexityByMemberId(@PathVariable Long memberId) {
+    return taskHistoryService.getTaskHistoriesWithComplexityByMemberId(memberId);
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/getTaskHistoriesWithComplexityByProjectId/{projectId}")
+  @ResponseStatus(HttpStatus.OK)
+  public List<TaskHistoryWithComplexityDto> getTaskHistoriesWithComplexityByProjectId(@PathVariable Long projectId) {
+    return taskHistoryService.getTaskHistoriesWithComplexityByProjectId(projectId);
   }
 }

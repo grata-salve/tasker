@@ -11,5 +11,6 @@ public enum Action {
   REOPENED,
   COMMENTED,
   ATTACHED,
-  DETACHED
+  DETACHED,
+  COMPLETED
 }

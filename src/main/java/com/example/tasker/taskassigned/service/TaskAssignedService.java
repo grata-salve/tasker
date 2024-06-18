@@ -7,6 +7,7 @@ import com.example.tasker.domain.model.mapper.TaskAssignedMapper;
 import com.example.tasker.domain.repository.TaskAssignedRepository;
 import com.example.tasker.domain.repository.TaskRepository;
 import com.example.tasker.domain.repository.UserRepository;
+import com.example.tasker.security.utils.SecurityUtils;
 import com.example.tasker.taskassigned.model.TaskAssignedDto;
 import com.example.tasker.taskhistory.service.TaskHistoryService;
 import com.example.tasker.user.model.UserDto;
@@ -38,12 +39,12 @@ public class TaskAssignedService {
         userRepository.findById(taskAssignedDto.getMemberId()));
 
     if (taskAssignedOptional.isPresent()) {
-      throw new GlobalException(HttpStatus.CONFLICT, "Ця задача вже призначена даному користувачу");
+      throw new GlobalException(HttpStatus.CONFLICT, "Task is already assigned to this user");
     }
 
     TaskAssigned taskAssigned = taskAssignedRepository.save(taskAssignedMapper.toEntity(taskAssignedDto));
     taskHistoryService.createTaskHistoryAuto(
-        taskAssigned.getTask().getId(), taskAssigned.getMember().getId(), Action.ASSIGNED);
+        taskAssigned.getTask().getId(), SecurityUtils.getCurrentUser().getId(), Action.ASSIGNED);
     return taskAssignedMapper.toDto(taskAssigned);
   }
 
@@ -59,7 +60,7 @@ public class TaskAssignedService {
     TaskAssigned taskAssigned = taskAssignedRepository.findById(taskAssignedId).orElseThrow(NoSuchElementException::new);
     taskAssignedRepository.deleteById(taskAssignedId);
     taskHistoryService.createTaskHistoryAuto(
-        taskAssigned.getTask().getId(), taskAssigned.getMember().getId(), Action.UNASSIGNED);
+            SecurityUtils.getCurrentUser().getId(), SecurityUtils.getCurrentUser().getId(), Action.UNASSIGNED);
     return taskAssignedMapper.toDto(taskAssigned);
   }
 
@@ -71,5 +72,3 @@ public class TaskAssignedService {
         .collect(Collectors.toList());
   }
 }
-
-//TODO: update service method is not necessary; check if assigned before assignment -> custom exception

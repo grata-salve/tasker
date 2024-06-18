@@ -5,6 +5,7 @@ import com.example.tasker.domain.model.TaskHistory;
 import com.example.tasker.domain.model.mapper.TaskHistoryMapper;
 import com.example.tasker.domain.repository.TaskHistoryRepository;
 import com.example.tasker.taskhistory.model.TaskHistoryDto;
+import com.example.tasker.taskhistory.model.TaskHistoryWithComplexityDto;
 import com.example.tasker.taskhistory.model.TimePeriodRequest;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -79,5 +80,15 @@ public class TaskHistoryService {
     List<TaskHistory> taskHistoryList = taskHistoryRepository.findAllByCreatedAtBetweenAndMemberId(
         timePeriodRequest.getStartDate(), timePeriodRequest.getEndDate(), timePeriodRequest.getMemberId());
     return taskHistoryList.stream().map(taskHistoryMapper::toDto).collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public List<TaskHistoryWithComplexityDto> getTaskHistoriesWithComplexityByMemberId(Long memberId) {
+    return taskHistoryRepository.findByMemberIdWithTaskComplexity(memberId);
+  }
+
+  @Transactional(readOnly = true)
+  public List<TaskHistoryWithComplexityDto> getTaskHistoriesWithComplexityByProjectId(Long projectId) {
+    return taskHistoryRepository.findByProjectIdWithTaskComplexity(projectId);
   }
 }

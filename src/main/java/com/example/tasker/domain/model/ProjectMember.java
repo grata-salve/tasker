@@ -30,4 +30,3 @@ public class ProjectMember extends AbstractIdentifiable {
   @Enumerated(EnumType.STRING)
   private ProjectRole role;
 }
-//TODO: ENUMERATED
