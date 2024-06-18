@@ -50,7 +50,7 @@ public class TaskService {
     taskDtoWithCreationTime.setTaskAssignedMemberIds(taskData.getTaskAssignedMemberIds());
     taskHistoryService.createTaskHistoryAuto(task.getId(), SecurityUtils.getCurrentUser().getId(), Action.UPDATED);
     return taskDtoWithCreationTime;
-  } //TODO: here example createdAt
+  }
 
   @Transactional
   public TaskDto deleteTask(Long taskId) {

@@ -7,4 +7,3 @@ public enum Status {
   ACTIVE,
   COMPLETED
 }
-//TODO: suspended -> assigned / active if press button

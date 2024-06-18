@@ -77,5 +77,3 @@ public class ProjectMemberService {
         .map(ProjectMember::getRole).orElseThrow(NoSuchElementException::new);
   }
 }
-
-//TODO: languages (UKR/ENG)
